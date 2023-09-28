@@ -127,14 +127,6 @@ public class Simulator {
         button.setBounds(50, 470, 100, 30);
         panel.add(button);
 
-        // Sorteia os Seis Numeros de 1 a 60
-        resultado1 = (int) (Math.random() * 61);
-        resultado2 = (int) (Math.random() * 61);
-        resultado3 = (int) (Math.random() * 61);
-        resultado4 = (int) (Math.random() * 61);
-        resultado5 = (int) (Math.random() * 61);
-        resultado6 = (int) (Math.random() * 61);
-
         // Adiciona Evento ao Botão
         button.addActionListener(new ActionListener() {
             @Override
@@ -146,6 +138,14 @@ public class Simulator {
                 String num4Str = input4.getText();
                 String num5Str = input5.getText();
                 String num6Str = input6.getText();
+
+                // Sorteia os Seis Numeros de 1 a 60
+                resultado1 = (int) (Math.random() * 60) + 1;
+                resultado2 = (int) (Math.random() * 60) + 1;
+                resultado3 = (int) (Math.random() * 60) + 1;
+                resultado4 = (int) (Math.random() * 60) + 1;
+                resultado5 = (int) (Math.random() * 60) + 1;
+                resultado6 = (int) (Math.random() * 60) + 1;
 
                 try {
                     // Converte os Inputs em Inteiros
