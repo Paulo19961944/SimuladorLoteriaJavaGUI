@@ -3,28 +3,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 public class Simulator {
-    // Atributos JLabel
     private JLabel titulo, numero1, numero2, numero3, numero4, numero5, numero6;
-    // Atributos Input
     private JTextField input1, input2, input3, input4, input5, input6;
-    // Botão
     private JButton button;
     private Integer resultado1, resultado2, resultado3, resultado4, resultado5, resultado6;
+    private Set<Integer> numerosSorteados;
 
     public Simulator() {
-        // Instancia a Classe JFrame
         JFrame jFrame = new JFrame();
 
-        // Configuração da Interface
         jFrame.setTitle("Simulador da Mega Sena");
         jFrame.setSize(768, 700);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setResizable(false);
         jFrame.setLocationRelativeTo(null);
 
-        // Configura o Fundo
         JPanel panel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -36,7 +34,6 @@ public class Simulator {
         panel.setLayout(null);
         jFrame.setContentPane(panel);
 
-        // Configura os Componentes
         titulo = new JLabel("Simulador da Mega Sena");
         titulo.setFont(new Font("Montserrat", Font.BOLD, 28));
         titulo.setForeground(new Color(75, 75, 75));
@@ -127,11 +124,11 @@ public class Simulator {
         button.setBounds(50, 470, 100, 30);
         panel.add(button);
 
-        // Adiciona Evento ao Botão
+        numerosSorteados = new HashSet<>();
+
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Captura os Inputs como Strings
                 String num1Str = input1.getText();
                 String num2Str = input2.getText();
                 String num3Str = input3.getText();
@@ -139,16 +136,9 @@ public class Simulator {
                 String num5Str = input5.getText();
                 String num6Str = input6.getText();
 
-                // Sorteia os Seis Numeros de 1 a 60
-                resultado1 = (int) (Math.random() * 60) + 1;
-                resultado2 = (int) (Math.random() * 60) + 1;
-                resultado3 = (int) (Math.random() * 60) + 1;
-                resultado4 = (int) (Math.random() * 60) + 1;
-                resultado5 = (int) (Math.random() * 60) + 1;
-                resultado6 = (int) (Math.random() * 60) + 1;
+                sortearNumeros();
 
                 try {
-                    // Converte os Inputs em Inteiros
                     int num1 = Integer.parseInt(num1Str);
                     int num2 = Integer.parseInt(num2Str);
                     int num3 = Integer.parseInt(num3Str);
@@ -156,7 +146,6 @@ public class Simulator {
                     int num5 = Integer.parseInt(num5Str);
                     int num6 = Integer.parseInt(num6Str);
 
-                    // Verifica se os números estão corretos
                     if (num1 == resultado1 && num2 == resultado2 && num3 == resultado3
                             && num4 == resultado4 && num5 == resultado5 && num6 == resultado6) {
                         JOptionPane.showMessageDialog(null, "Você acertou!!! O Resultado é: " + resultado1 + " " + resultado2 + " " + resultado3 + " " + resultado4 + " " + resultado5 + " " + resultado6);
@@ -168,7 +157,36 @@ public class Simulator {
                 }
             }
         });
-        // Torna visível a interface
+
         jFrame.setVisible(true);
+    }
+
+    private void sortearNumeros() {
+        Random random = new Random();
+        numerosSorteados.clear();
+
+        resultado1 = sortearNumero(random);
+        resultado2 = sortearNumero(random);
+        resultado3 = sortearNumero(random);
+        resultado4 = sortearNumero(random);
+        resultado5 = sortearNumero(random);
+        resultado6 = sortearNumero(random);
+    }
+
+    private int sortearNumero(Random random) {
+        int numero;
+        do {
+            numero = random.nextInt(60) + 1;
+        } while (numerosSorteados.contains(numero));
+        numerosSorteados.add(numero);
+        return numero;
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new Simulator();
+            }
+        });
     }
 }
